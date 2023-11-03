@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "303405343079",
+    "firebase_url": "https://farmkal-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "farmkal",
+    "storage_bucket": "farmkal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303405343079:android:79e32196491302cf5f0fc2",
+        "android_client_info": {
+          "package_name": "com.example.farmkal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0CpFzvggzN8gc15gCIs7PH5SvonB3S4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
