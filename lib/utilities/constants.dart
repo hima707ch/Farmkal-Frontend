@@ -8,7 +8,7 @@ var getLocation = () async{
     await location.getLocation();
     print(location);
 
-    if(location.isFail = false){
+    if(location.isFail == false){
 
       http.Response res = await http.get(Uri.parse('https://geocode.xyz/${location.latitude},${location.longitude}?geoit=json&auth=504208361678632309527x107657 '));
       var respJson = jsonDecode(res.body);
@@ -36,3 +36,4 @@ var getLocation = () async{
     print(e);
   }
 };
+

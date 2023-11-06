@@ -13,7 +13,20 @@
           "package_name": "com.example.farmkal"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "303405343079-n9tp7orvqjqdskhoja4lbv408en6i19i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.farmkal",
+            "certificate_hash": "315737f3b8268cdec808788636bc8e4e19f5eb57"
+          }
+        },
+        {
+          "client_id": "303405343079-o22o8b6or8jlj86ndektgo68ohj5p1i8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD0CpFzvggzN8gc15gCIs7PH5SvonB3S4s"
@@ -21,7 +34,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303405343079-o22o8b6or8jlj86ndektgo68ohj5p1i8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "303405343079-rcp01sdgahvjjfdkm412ofiaptda0pnj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.farmkal"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,6 +1,6 @@
-import 'package:farmkal/otp.dart';
+import 'package:farmkal/screens/otp.dart';
 import 'package:farmkal/screens/home.dart';
-import 'package:farmkal/screens/register.dart';
+import 'package:farmkal/screens/UserDetails.dart';
 import 'package:flutter/material.dart';
 import 'screens/profile.dart';
 import 'package:farmkal/utilities/constants.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/':(context)=>Home(),
         '/profile' : (context)=>Profile(),
-        '/register' : (context)=>Register(),
+        '/register' : (context)=>Register(uid : 'YZULl87FtAppocymfOzd'),
       },
     );
   }

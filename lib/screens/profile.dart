@@ -1,10 +1,40 @@
-import 'package:farmkal/screens/register.dart';
+import 'package:farmkal/screens/UserDetails.dart';
 import 'package:flutter/material.dart';
 import 'Login.dart';
-import 'register.dart';
+import 'UserDetails.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'Home.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+
+
+
+  void saveData() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    print("done");
+  }
+
+
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    saveData();
+
+    var a = json.decode('{"a":"data"}');
+    print(a);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +98,7 @@ class Profile extends StatelessWidget {
                     ),
                     TextButton(onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return Register();
+                        return Register(uid : 'YZULl87FtAppocymfOzd');
                       }));
                     },
                       child: Text('Register',
