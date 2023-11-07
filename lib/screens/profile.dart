@@ -5,6 +5,7 @@ import 'UserDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'Home.dart';
+import 'package:farmkal/services/googleAuth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -15,24 +16,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
-
-
-  void saveData() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    print("done");
-  }
-
-
-
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    saveData();
-
-    var a = json.decode('{"a":"data"}');
-    print(a);
 
   }
 
@@ -113,6 +100,15 @@ class _ProfileState extends State<Profile> {
                       child: Text('Login',
                         style: TextStyle(color: Colors.white),
                       ),
+                    ),
+                    TextButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return Login();
+                      }));
+                    },
+                      child: TextButton(onPressed: ()async{
+                        handleSignOut();
+                      }, child: Text('Change user')),
                     )
                   ],
                 )

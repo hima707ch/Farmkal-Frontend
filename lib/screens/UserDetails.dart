@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:farmkal/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:farmkal/services/googleAuth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:farmkal/utilities/InputField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,12 +14,7 @@ import 'package:farmkal/screens/GetAdderess.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'https://www.googleapis.com/auth/contacts.readonly'
-  ]
-);
+
 
 class Register extends StatefulWidget {
   Register({super.key,required this.uid});
@@ -43,9 +40,22 @@ class _RegisterState extends State<Register> {
 
   void saveData(user) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('user', json.encode(user.toJson()));
+    pref.setString('user', json.encode(user));
   }
+  void getSaveData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var userStr = pref.getString('user');
+    print("user String "+userStr.toString());
+    var user;
 
+    if (userStr != null && userStr != "")
+      user = json.decode(userStr.toString());
+    if (user?['email'] != null) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return Home();
+      }));
+    }
+  }
 
   void sendData()async {
     var url = Uri.parse('http://localhost:4000/api/v1/register');
@@ -70,7 +80,6 @@ class _RegisterState extends State<Register> {
         }
     );
   }
-
   void showData()async{
     CollectionReference users = await FirebaseFirestore.instance.collection('users');
 
@@ -95,25 +104,14 @@ class _RegisterState extends State<Register> {
   }
 
   void handleUserChange() async{
-    _googleSignIn.onCurrentUserChanged.listen((event){
+    googleSignIn.onCurrentUserChanged.listen((event){
       setState(() {
         _user = event!;
       });
     });
 
-    _googleSignIn.signInSilently();
+    googleSignIn.signInSilently();
   }
-
-  Future<void> handleSignIn() async{
-    try{
-      await _googleSignIn.signIn();
-    }
-    catch(error){
-      print("Sign In error : " + error.toString());
-    }
-}
-
-Future<void> handleSignOut() async => _googleSignIn.disconnect();
 
   TextEditingController contName = TextEditingController(text : "");
   TextEditingController contEmail = TextEditingController(text : "");
@@ -203,8 +201,8 @@ Future<void> handleSignOut() async => _googleSignIn.disconnect();
                   onPressed: () async{
                     handleSignIn();
                     print(_user);
-                    contName.text = _user!.displayName!;
-                    contEmail.text = _user!.email!;
+                    contName.text = _user?.displayName ?? "";
+                    contEmail.text = _user?.email ?? "";
 
                     setState(() {
                       name = contName.text;
@@ -360,23 +358,5 @@ Future<void> handleSignOut() async => _googleSignIn.disconnect();
         )
     );
   }
-
-  void getSaveData() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    var userStr = pref.getString('user');
-    print("user String "+userStr.toString());
-    var user;
-/*
-    if (userStr != null)
-      user = json.decode(userStr.toString());
-    if (user?.email != null) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return Home();
-      }));
-    }
-
- */
-  }
-
     }
 
