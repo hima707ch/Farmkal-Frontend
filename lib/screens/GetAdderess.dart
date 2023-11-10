@@ -1,8 +1,16 @@
+import 'package:farmkal/Providers/user.dart';
+import 'package:farmkal/services/googleAuth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:farmkal/utilities/InputField.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Home.dart';
 import 'package:farmkal/utilities/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:provider/provider.dart';
+
 
 class Adderess extends StatefulWidget {
   const Adderess({super.key});
@@ -13,10 +21,12 @@ class Adderess extends StatefulWidget {
 
 class _AdderessState extends State<Adderess> {
 
+  // variables
   String status = "";
   String? state;
   String? city;
   var location;
+
 
   Future<void> getLoc() async{
 
@@ -26,10 +36,9 @@ class _AdderessState extends State<Adderess> {
       if(location?['success'] == false){
         status = "Permission denied";
       }
-
     });
-    cont1.text = location['state'];
-    cont2.text = location['city'];
+    cont1.text = location?['state'];
+    cont2.text = location?['city'];
   }
 
   @override
@@ -47,6 +56,9 @@ class _AdderessState extends State<Adderess> {
 
   @override
   Widget build(BuildContext context) {
+
+    final arg = (ModalRoute.of(context)?.settings.arguments ?? <String,dynamic>{}) as Map;
+
     return MaterialApp(
         home: Scaffold(
             backgroundColor: Color(0xFFF0F0F0),
@@ -118,11 +130,37 @@ class _AdderessState extends State<Adderess> {
                           ),),
 
                           onPressed: (){
+                            state = cont1.text;
+                            city = cont2.text;
                             print({state,city});
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                              return Home();
-                            }));
+                            // sendData();
+                            var data = {
+                              "state" : state,
+                              "city" : city,
+                              "latitude" : location['latitude'],
+                              "longitude" : location['longitude']
+                            };
+                            print(data);
+
+                            //ToDo : local to provider
+                            // context.read<UserProvider>().updateUser(data);
+                             saveDataInLocal(data, 'location');
+
+                            if(arg['google'].toString().length > 0 && arg['google'] != null){
+                              Navigator.pushReplacementNamed(context, '/phone' , arguments: {"from" : "address"});
+                            }
+
+                            if(arg['phone'].toString().length > 0 && arg['phone'] != null){
+                              Navigator.pushReplacementNamed(context, '/register' , arguments: {"from" : "address"});
+                            }
+
+                            if(arg['register'].toString().length > 0 && arg['register'] != null){
+                              sendData();
+
+                              Navigator.pushReplacementNamed(context, '/home' , arguments: {"from" : "address"});
+                            }
+
 
                           },
                           style: TextButton.styleFrom(
@@ -190,6 +228,7 @@ class _AdderessState extends State<Adderess> {
                           ),),
 
                           onPressed: (){
+
                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                               return Home();
                             }));
@@ -202,13 +241,7 @@ class _AdderessState extends State<Adderess> {
                     ),
 
                     // hr line
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 40),
-                      child: Divider(
-                        color: Color(0xFF7B7B7B),
-
-                      ),
-                    ),
+                    Hr(),
                     Container(
                       alignment: Alignment.center,
                       child: Text('Already have a account | Sign In'),

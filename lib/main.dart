@@ -1,10 +1,15 @@
-import 'package:farmkal/screens/otp.dart';
+import 'package:farmkal/Providers/user.dart';
+import 'package:farmkal/screens/GetPhone.dart';
+import 'package:farmkal/screens/Login.dart';
 import 'package:farmkal/screens/home.dart';
-import 'package:farmkal/screens/UserDetails.dart';
+import 'package:farmkal/screens/Register.dart';
+import 'package:farmkal/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/profile.dart';
-import 'package:farmkal/utilities/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:farmkal/screens/GetAdderess.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +21,12 @@ void main() async{
         projectId: "farmkal",
       )
   );
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context)=>UserProvider()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,13 +36,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+
       routes: {
-        '/':(context)=>Home(),
-        '/profile' : (context)=>Profile(),
+        '/home'     : (ctx) => Home(),
+        '/welcome'  : (context)=>Welcome(),
+        '/profile'  : (context)=>Profile(),
         '/register' : (context)=>Register(uid : 'YZULl87FtAppocymfOzd'),
+        '/address'  : (ctx) => Adderess(),
+        '/phone'    : (ctx) => Phone(),
+        '/login'    :  (ctx) => Login(),
+        '/test'     : (ctx) => Home()
       },
+      initialRoute: '/test',
+
+
     );
   }
 }

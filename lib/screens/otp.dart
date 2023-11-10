@@ -1,28 +1,36 @@
-import 'package:farmkal/screens/UserDetails.dart';
+import 'package:farmkal/screens/Register.dart';
 import 'package:farmkal/utilities/InputField.dart';
+import 'package:farmkal/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
 
 class Otp extends StatefulWidget {
-  Otp({super.key, required this.verify});
+  Otp({super.key, required this.verify, required this.phone, required this.from});
 
   String verify;
+  String phone;
+  String from;
 
   @override
-  State<Otp> createState() => _OtpState(verify:verify);
+  State<Otp> createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
 
-  _OtpState({required this.verify});
+  _OtpState();
 
   String otp = "";
-  String verify = "";
   String status = "";
+
 
   @override
   Widget build(BuildContext context) {
+    String verify = widget.verify;
+    String phone = widget.phone;
+
     return MaterialApp(
         home: Scaffold(
             backgroundColor: Color(0xFFF0F0F0),
@@ -91,7 +99,13 @@ class _OtpState extends State<Otp> {
                                   verificationId: verify, smsCode: otp);
                               print({credential,verify});
                               UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
-                              print(userCred);
+                              
+                              bool isExist = false;
+                              
+                              if(userCred.additionalUserInfo!.isNewUser){
+                                print(userCred);
+                                isExist = true;
+                              }
                               setState(() {
                                 status = "valid user";
                               });
@@ -105,9 +119,18 @@ class _OtpState extends State<Otp> {
                                 });
                               }
                               else{
-                                Navigator.push(context, MaterialPageRoute(builder: (context){
-                                  return Register(uid : uid.toString());
-                                }));
+
+                                String route = "";
+
+                                //ToDo Add a phone No here in DB
+                                if(widget.from == "address"){
+                                  sendData();
+                                }
+
+                                isExist ?
+                                Navigator.pushReplacementNamed(context, '/home') :
+                                widget.from == "address" ? Navigator.pushReplacementNamed(context, '/home') :
+                                                           Navigator.pushReplacementNamed(context, '/address', arguments: {"phone" : phone} );
                               }
 
                             }

@@ -4,13 +4,36 @@ import 'profile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:farmkal/utilities/constants.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+          bottomNavigationBar:BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            backgroundColor: Colors.red,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home", backgroundColor: Colors.blue),
+              BottomNavigationBarItem(icon : Icon(Icons.chat),label : "Chat", backgroundColor: Colors.blue),
+              BottomNavigationBarItem(icon : Icon(FontAwesomeIcons.plus),label : "Sell", backgroundColor: Colors.blue),
+              BottomNavigationBarItem(icon : Icon(FontAwesomeIcons.user),label : "User", backgroundColor: Colors.blue),
+              BottomNavigationBarItem(icon : Icon(Icons.settings),label : "Settings", backgroundColor: Colors.blue),
+            ],
+       ),
         backgroundColor: Color(0xFFF1F1F1),
           appBar: AppBar(
             backgroundColor: Color(0xFFE7FFE5),         //Color(0xFF7AC285),
