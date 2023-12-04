@@ -25,10 +25,17 @@ class _PhoneState extends State<Phone> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final arg = (ModalRoute.of(context)?.settings.arguments ?? <String,dynamic>{}) as Map;
-
+    print(arg['from']);
     return MaterialApp(
         home: Scaffold(
             backgroundColor: Color(0xFFF0F0F0),
@@ -92,7 +99,7 @@ class _PhoneState extends State<Phone> {
                                   verify = verificationId;
 
                                   Navigator.push(context, MaterialPageRoute(builder: (context){
-                                    return Otp(verify:verify, phone:phone, from : arg['from']);
+                                    return Otp(verify:verify, phone:phone, from : "address");
                                   }));
                                   },
                                 codeAutoRetrievalTimeout: (String verificationId) {},

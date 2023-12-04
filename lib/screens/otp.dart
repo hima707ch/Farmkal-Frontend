@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 
 class Otp extends StatefulWidget {
   Otp({super.key, required this.verify, required this.phone, required this.from});
 
-  String verify;
-  String phone;
-  String from;
+  String verify = "";
+  String phone = "";
+  String from = "";
 
   @override
   State<Otp> createState() => _OtpState();
@@ -97,7 +98,10 @@ class _OtpState extends State<Otp> {
                               PhoneAuthCredential credential = PhoneAuthProvider
                                   .credential(
                                   verificationId: verify, smsCode: otp);
-                              print({credential,verify});
+                              print({"cred",credential, "verify",verify , "end"});
+
+
+
                               UserCredential userCred = await FirebaseAuth.instance.signInWithCredential(credential);
                               
                               bool isExist = false;

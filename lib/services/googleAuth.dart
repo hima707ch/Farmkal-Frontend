@@ -54,6 +54,8 @@ Future<String?> handleSignIn() async{
     try{
       GoogleSignInAccount? user =  await googleSignIn.signIn();
 
+      print({"handle signin user", user});
+
       return user?.email ?? null;
 
 
